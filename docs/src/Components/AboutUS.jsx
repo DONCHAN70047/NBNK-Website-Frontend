@@ -1,7 +1,8 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import "./AboutUs.css"; // Import CSS file
+import Header from "../Components/Header"; 
+import Footer from "../Components/Footer"; 
+import "./AboutUs.css"; 
+import ConsultAboutUS from "/ConsultAboutUS.webp"; 
 
 const AboutUs = () => {
   return (
@@ -33,10 +34,7 @@ const AboutUs = () => {
 
         {/* ---------- RIGHT SIDE IMAGE ---------- */}
         <div className="about-image">
-          <img
-            src="\ConsultAboutUS.webp"
-            alt="About Us Team"
-          />
+          <img src={ConsultAboutUS} alt="About Us Team" />
         </div>
       </section>
 
