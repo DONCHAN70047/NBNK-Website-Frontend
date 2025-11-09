@@ -6,15 +6,17 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [adminName, setAdminName] = useState("");
 
+  // ---------- Check if admin is logged in ----------
   useEffect(() => {
     const name = localStorage.getItem("adminName");
     if (!name) {
-      navigate("/Login");
+      navigate("/Login"); // redirect to login if not logged in
     } else {
-      setAdminName(name);
+      setAdminName(name); // set admin name
     }
   }, [navigate]);
 
+  // ---------- Logout function ----------
   const handleLogout = () => {
     localStorage.removeItem("adminName");
     navigate("/Login");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Header from "../Components/Header";
@@ -11,33 +11,48 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    const adminName = localStorage.getItem("adminName");
+    if (adminName) {
+      navigate("/AdminDashboard");
+    }
+  }, [navigate]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
+    if (!phoneNumber || !password) {
+      setError("Please enter both phone number and password.");
+      return;
+    }
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/login/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone_number: phoneNumber,
-          password: password,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone_number: phoneNumber,
+            password: password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        alert("✅ Login Successful!");
         localStorage.setItem("adminName", data.admin_name);
         navigate("/AdminDashboard");
       } else {
         setError(data.error || "Invalid phone number or password");
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Login error:", err);
       setError("Something went wrong. Try again later.");
     }
   };
