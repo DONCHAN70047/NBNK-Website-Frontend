@@ -12,7 +12,8 @@ import FarmerSellingComunityPage from "./pages/FarmerSellingComunityPage.jsx";
 import Login from "./pages/Login.jsx";
 import AboutUS from "./Components/AboutUS.jsx";
 import AdminDashboard from "./Components/AdminDashboard.jsx";
-import ProtectedRoute from "./Components/ProtectedRoute.jsx"; 
+import ProtectedRoute from "./Components/ProtectedRoute.jsx";
+import MoneyTransferTransactions from "./Components/MoneyTransferTransactions"; 
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -29,6 +30,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/WeatherApp" element={<WeatherApp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/AboutUS" element={<AboutUS />} />
+          <Route path="/MoneyTransferTransactions" element={<MoneyTransferTransactions />} />
 
           {/* Protected Admin Dashboard */}
           <Route

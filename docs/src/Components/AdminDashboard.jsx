@@ -1,6 +1,9 @@
+// src/Components/AdminDashboard.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
+import DashboardHeaderSidebar from "./DashboardHeaderSidebar";
+import { motion } from "framer-motion"; // ✨ Animation Import
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -46,81 +49,20 @@ const AdminDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* TOP NAVBAR */}
-      <div className="top-navbar">
-        <div className="topbar-left">
-          <img className="logo-img" src="/EsmartPayLogo.png" alt="logo" />
-          <div className="topbar-date">
-            <span className="date-left">
-              November <span className="year-small">2025</span>
-            </span>
-            <span className="date-right">09</span>
-          </div>
-        </div>
+      {/* 🔹 Header + Sidebar */}
+      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
 
-        <div className="topbar-center">
-          <div className="balance-box">
-            <span className="wallet-big">₹ 90.17</span>
-            <div className="wallet-labels">
-              <span className="wallet-text">Available</span>
-              <div className="wallet-desc">Wallet Balance</div>
-            </div>
-          </div>
-
-          <div className="balance-box">
-            <span className="aeps-big">₹ 0</span>
-            <div className="wallet-labels">
-              <span className="aeps-text">Available</span>
-              <div className="aeps-desc">AEPS Balance</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="topbar-right">
-          <span className="notify-bell">
-            <svg width="25" height="25" fill="none" viewBox="0 0 24 24">
-              <path fill="#fff" d="M12 2a5 5 0 0 0-5 5v2.28c0 .24-.09.47-.26.65l-1.6 1.74A3 3 0 0 0 4 15.39V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.61a3 3 0 0 0-.14-.87l-1.6-1.74a.995.995 0 0 1-.26-.65V7a5 5 0 0 0-5-5Zm0 19c1.13 0 2.07-.84 2.24-1.93h-4.48C9.93 20.16 10.87 21 12 21Z"/>
-            </svg>
-          </span>
-          <span className="user-info-bar">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" className="user-pic" alt="User" />
-            <span>
-              <span className="welcome-label">Welcome,</span>
-              <span className="user-name-bar">{adminName || "NANTU DAS ADHIKARI"}</span>
-            </span>
-          </span>
-        </div>
-      </div>
-
-      {/* SIDEBAR + MAIN CONTENT */}
       <div className="main-row">
-        <aside className="sidebar">
-          <div className="user-info">
-            
-            <div className="user-name">{adminName || "NANTU DAS ADHIKARI"}</div>
-            <div className="user-role">Smart Retailer - 9547783824 - SBR38904</div>
-          </div>
-          <nav className="nav-menu">
-            <ul>
-              <li>Dashboard</li>
-              <li>Smart Summary</li>
-              <li>Transactions</li>
-              <li>Refund Pending</li>
-              <li>Money Requests</li>
-              <li>Statements</li>
-              <li>Settlement</li>
-              <li>Charges Slabs</li>
-              <li className="section-title">Privacy & Settings</li>
-              <li>Configurations</li>
-              <li>Credentials</li>
-            </ul>
-          </nav>
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
-          </button>
-        </aside>
+        <div className="sidebar-space" />
 
-        <main className="main-content">
+        {/* ✨ Framer Motion Wrapper for Main Content */}
+        <motion.main
+          className="main-content"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* 🔹 Header */}
           <header className="app-header">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar" />
             <div className="company-info">
@@ -139,33 +81,51 @@ const AdminDashboard = () => {
             </div>
           </header>
 
-          {/* 🔁 Running Loop Message */}
+          {/* 🔹 Alert Section */}
           <div className="alert-marquee">
             <div className="marquee-text">
-              कृपया BSES और Tata Power के लिए ₹ 1,00,000 से अधिक के बिजली बिल फिलहाल न भेजें, जब 🙏🙏|| Please do not send electricity bills over ₹1,00,000 for BSES and Tata Power for now. 🙏🙏
+              कृपया BSES और Tata Power के लिए ₹ 1,00,000 से अधिक के बिजली बिल फिलहाल न भेजें 🙏🙏 ||
+              Please do not send electricity bills over ₹1,00,000 for BSES and Tata Power for now. 🙏🙏
             </div>
           </div>
 
-          <section className="services-section">
+          {/* 🔹 Services Section */}
+          <motion.section
+            className="services-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+          >
             <div className="services-grid">
               {services.map((service, index) => (
-                <div className="service-card" key={index}>
+                <motion.div
+                  className="service-card"
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   <img src={service.icon} alt={service.label} />
                   <p>{service.label}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </section>
+          </motion.section>
 
-          <section className="summary-transactions-section">
+          {/* 🔹 Summary and Transactions Section */}
+          <motion.section
+            className="summary-transactions-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
             <div className="today-business">
               <h3>Today Business Summary</h3>
               <div className="summary-grid">
-                <div className="summary-box money-transfer"><p>Money Transfer</p><h4>₹ 0</h4></div>
-                <div className="summary-box utility-bills"><p>Utility Bills</p><h4>₹ 0</h4></div>
-                <div className="summary-box credit-card-bills"><p>Credit Card Bills</p><h4>₹ 0</h4></div>
-                <div className="summary-box aeps-flight"><p>AEPS/MATM/MPOS</p><h4>₹ 0</h4></div>
-                <div className="summary-box flight"><p>Flight</p><h4>₹ 0</h4></div>
+                <div className="summary-box"><p>Money Transfer</p><h4>₹ 0</h4></div>
+                <div className="summary-box"><p>Utility Bills</p><h4>₹ 0</h4></div>
+                <div className="summary-box"><p>Credit Card Bills</p><h4>₹ 0</h4></div>
+                <div className="summary-box"><p>AEPS/MATM/MPOS</p><h4>₹ 0</h4></div>
+                <div className="summary-box"><p>Flight</p><h4>₹ 0</h4></div>
               </div>
             </div>
 
@@ -173,23 +133,33 @@ const AdminDashboard = () => {
               <h3>Recent Transactions</h3>
               <ul>
                 {recentTransactions.map((txn, idx) => (
-                  <li key={idx}>
+                  <motion.li
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
                     - ₹ {txn.amount} {txn.label} <br />
                     <small>{txn.date} @ {txn.id}</small>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </div>
 
-            <div className="live-alerts">
+            <motion.div
+              className="live-alerts"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+            >
               <h3>Live Alerts</h3>
               <div className="alert-box">
-                <p>Welcome. good morning hope you are doing well.</p>
+                <p>Welcome. Good morning, hope you are doing well.</p>
                 <p>Our Customer Care Number is <strong>+91 780 0606 780</strong>.</p>
               </div>
-            </div>
-          </section>
-        </main>
+            </motion.div>
+          </motion.section>
+        </motion.main>
       </div>
     </div>
   );
