@@ -1,16 +1,41 @@
-// src/Components/DashboardHeaderSidebar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./AdminDashboard.css";
 
 const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
   const [isTransactionsOpen, setIsTransactionsOpen] = useState(true);
+  const [walletBalance, setWalletBalance] = useState("0.00");
+  const [aepsBalance, setAepsBalance] = useState("0.00");
   const navigate = useNavigate();
+
+  // ✅ Fetch balance from Django backend API
+  const fetchBalance = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`);
+      const data = await response.json();
+
+      // ✅ Match Django backend structure
+      if (data.status === "success" && data.balance?.normal_balance) {
+        setWalletBalance(data.balance.normal_balance);
+      } else {
+        console.warn("Unexpected API structure:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
+  };
+
+  // ✅ Auto-refresh every 30 seconds
+  useEffect(() => {
+    fetchBalance();
+    const interval = setInterval(fetchBalance, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
-      {/* 🔹 Animated Top Navbar */}
+      {/* 🔹 Top Navbar */}
       <motion.div
         className="top-navbar"
         initial={{ y: -80, opacity: 0 }}
@@ -28,44 +53,38 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
             src="/EsmartPayLogo.png"
             alt="Esmart Logo"
             animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{
-              repeat: Infinity,
-              repeatDelay: 5,
-              duration: 2,
-            }}
+            transition={{ repeat: Infinity, repeatDelay: 5, duration: 2 }}
           />
           <div className="topbar-date">
             <span className="date-left">
               November <span className="year-small">2025</span>
             </span>
-            <span className="date-right">10</span>
+            <span className="date-right">12</span>
           </div>
         </motion.div>
 
-        {/* 🔸 Center Section */}
+        {/* 🔸 Center Section — Wallet + AEPS */}
         <div className="topbar-center">
+          {/* 💰 Wallet Balance */}
           <motion.div
             className="balance-box"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 250 }}
           >
-            <span className="wallet-big">₹ 90.17</span>
-            <div className="wallet-labels">
-              <span className="wallet-text">Available</span>
-              <div className="wallet-desc">Wallet Balance</div>
-            </div>
+            <div className="wallet-amount">₹ {walletBalance}</div>
+            <div className="wallet-label">Available</div>
+            <div className="wallet-subtext">Wallet Balance</div>
           </motion.div>
 
+          {/* 🏧 AEPS Balance */}
           <motion.div
             className="balance-box"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 250 }}
           >
-            <span className="aeps-big">₹ 0</span>
-            <div className="wallet-labels">
-              <span className="aeps-text">Available</span>
-              <div className="aeps-desc">AEPS Balance</div>
-            </div>
+            <div className="wallet-amount">₹ {aepsBalance}</div>
+            <div className="wallet-label">Available</div>
+            <div className="wallet-subtext">AEPS Balance</div>
           </motion.div>
         </div>
 
@@ -108,7 +127,9 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
       >
         <div className="user-info">
           <div className="user-name">{adminName || "NANTU DAS ADHIKARI"}</div>
-          <div className="user-role">Smart Retailer - 9547783824 - SBR38904</div>
+          <div className="user-role">
+            Smart Retailer - 9547783824 - SBR38904
+          </div>
         </div>
 
         <nav className="nav-menu">
@@ -120,7 +141,7 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
               Smart Summary
             </motion.li>
 
-            {/* Dropdown */}
+            {/* Dropdown for Transactions */}
             <motion.li
               className="dropdown-title"
               onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}

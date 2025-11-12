@@ -1,13 +1,13 @@
-// src/Components/AdminDashboard.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 import DashboardHeaderSidebar from "./DashboardHeaderSidebar";
-import { motion } from "framer-motion"; // ✨ Animation Import
+import { motion } from "framer-motion";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [adminName, setAdminName] = useState("");
+  const [walletBalance, setWalletBalance] = useState("0.00"); // ✅ Added for backend balance
 
   useEffect(() => {
     const name = localStorage.getItem("adminName");
@@ -18,13 +18,36 @@ const AdminDashboard = () => {
     }
   }, [navigate]);
 
+  // ✅ Fetch balance from Django backend
+  const fetchBalance = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`);
+      const data = await response.json();
+
+      if (data.status === "success" && data.balance?.normal_balance) {
+        setWalletBalance(data.balance.normal_balance);
+      } else {
+        console.warn("Unexpected API structure:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
+  };
+
+  // ✅ Auto-refresh every 30 seconds
+  useEffect(() => {
+    fetchBalance();
+    const interval = setInterval(fetchBalance, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("adminName");
     navigate("/Login");
   };
 
   const services = [
-    { label: "Money Transfer 1", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
+    { label: "Royel Payout", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
     { label: "Money Transfer 3", icon: "TrasferPic.png" },
     { label: "PPI Transfer", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
     { label: "UPI Transfer", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
@@ -64,11 +87,20 @@ const AdminDashboard = () => {
         >
           {/* 🔹 Header */}
           <header className="app-header">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar" />
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="User Avatar"
+            />
             <div className="company-info">
-              <div className="company-name">ISHMART TECHNOLOGLOB SERVICE PVT LTD</div>
-              <div className="company-sub">Smart Retailer - 9547783824 - SBR38904</div>
+              <div className="company-name">
+                ISHMART TECHNOLOGLOB SERVICE PVT LTD
+              </div>
+              <div className="company-sub">
+                Smart Retailer - 9547783824 - SBR38904
+              </div>
             </div>
+
+            {/* ✅ Updated Balance Section */}
             <div className="balance-info">
               <div className="opening-balance">
                 <div>Opening Balance</div>
@@ -76,7 +108,7 @@ const AdminDashboard = () => {
               </div>
               <div className="available-balance">
                 <div>Available Balance</div>
-                <div>₹ 00.00</div>
+                <div>₹ {walletBalance}</div>
               </div>
             </div>
           </header>
@@ -121,11 +153,26 @@ const AdminDashboard = () => {
             <div className="today-business">
               <h3>Today Business Summary</h3>
               <div className="summary-grid">
-                <div className="summary-box"><p>Money Transfer</p><h4>₹ 0</h4></div>
-                <div className="summary-box"><p>Utility Bills</p><h4>₹ 0</h4></div>
-                <div className="summary-box"><p>Credit Card Bills</p><h4>₹ 0</h4></div>
-                <div className="summary-box"><p>AEPS/MATM/MPOS</p><h4>₹ 0</h4></div>
-                <div className="summary-box"><p>Flight</p><h4>₹ 0</h4></div>
+                <div className="summary-box">
+                  <p>Money Transfer</p>
+                  <h4>₹ 0</h4>
+                </div>
+                <div className="summary-box">
+                  <p>Utility Bills</p>
+                  <h4>₹ 0</h4>
+                </div>
+                <div className="summary-box">
+                  <p>Credit Card Bills</p>
+                  <h4>₹ 0</h4>
+                </div>
+                <div className="summary-box">
+                  <p>AEPS/MATM/MPOS</p>
+                  <h4>₹ 0</h4>
+                </div>
+                <div className="summary-box">
+                  <p>Flight</p>
+                  <h4>₹ 0</h4>
+                </div>
               </div>
             </div>
 
@@ -140,7 +187,9 @@ const AdminDashboard = () => {
                     transition={{ delay: idx * 0.1 }}
                   >
                     - ₹ {txn.amount} {txn.label} <br />
-                    <small>{txn.date} @ {txn.id}</small>
+                    <small>
+                      {txn.date} @ {txn.id}
+                    </small>
                   </motion.li>
                 ))}
               </ul>
@@ -155,7 +204,9 @@ const AdminDashboard = () => {
               <h3>Live Alerts</h3>
               <div className="alert-box">
                 <p>Welcome. Good morning, hope you are doing well.</p>
-                <p>Our Customer Care Number is <strong>+91 780 0606 780</strong>.</p>
+                <p>
+                  Our Customer Care Number is <strong>+91 780 0606 780</strong>.
+                </p>
               </div>
             </motion.div>
           </motion.section>
