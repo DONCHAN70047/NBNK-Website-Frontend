@@ -1033,4 +1033,273 @@
   margin-top: 20px;
 }
 
+/*  ....................................... Money Transection CSS ............................. */
+/* ===========================
+   💎 MoneyTransfer Page Styling
+=========================== */
+
+.search-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  margin: 20px 0;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+
+.search-box input,
+.search-box select {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  color: #333;
+  background-color: #fff;
+  outline: none;
+  transition: 0.3s;
+}
+
+
+.search-box input[type="date"] {
+  color: #000;
+  background-color: #fff;
+  font-size: 15px;
+  padding: 10px;
+  appearance: none;
+}
+
+.search-box input:focus,
+.search-box select:focus {
+  border-color: #6b73ff;
+  box-shadow: 0 0 8px rgba(107, 115, 255, 0.4);
+}
+
+/* Buttons */
+.search-btn,
+.export-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-btn.glow {
+  background: linear-gradient(90deg, #6b73ff, #000dff);
+  color: white;
+  box-shadow: 0 0 12px rgba(107, 115, 255, 0.6);
+}
+
+.search-btn.glow:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(107, 115, 255, 0.8);
+}
+
+.export-btn.shine {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 114, 255, 0.4);
+}
+
+.export-btn.shine:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(0, 114, 255, 0.7);
+}
+
+/* Summary cards */
+.transaction-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.summary-card {
+  background: linear-gradient(135deg, #f9f9f9, #ffffff);
+  padding: 18px;
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.summary-card p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.summary-card h3 {
+  color: #111;
+  font-size: 1.4rem;
+  margin-top: 8px;
+}
+
+.no-records {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.1rem;
+  color: #888;
+}
+
+/* Titles */
+.money-title {
+  font-size: 1.6rem;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.money-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 18px;
+}
+
+.white-bg {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.money-title {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.search-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #f8f9fc;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 20px 0;
+}
+
+.search-box input,
+.search-box select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-box input:focus,
+.search-box select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.search-btn,
+.export-btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.search-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+.search-btn:hover {
+  background: #0056b3;
+}
+
+.export-btn {
+  background: #28a745;
+  color: #fff;
+}
+
+.export-btn:hover {
+  background: #1e7e34;
+}
+
+.transaction-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.summary-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-table-container {
+  overflow-x: auto;
+  max-height: 500px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.transaction-table th {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.transaction-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.transaction-table tr:hover {
+  background-color: #f1f8ff;
+}
+.limit-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.limit-select:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+.record-info {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #555;
+}
 

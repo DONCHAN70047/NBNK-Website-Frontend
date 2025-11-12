@@ -13,7 +13,19 @@ import Login from "./pages/Login.jsx";
 import AboutUS from "./Components/AboutUS.jsx";
 import AdminDashboard from "./Components/AdminDashboard.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
-import MoneyTransferTransactions from "./Components/MoneyTransferTransactions"; 
+import MoneyTransferTransactions from "./Components/Transection/MoneyTransferTransactions";
+import UPITransferTransactions from "./Components/Transection/UPITransferTransactions";
+import PPITransferTransactions from "./Components/Transection/PPITransferTransactions";
+import UtilityTransactions from "./Components/Transection/UtilityTransactions";
+import FlightBookings from "./Components/Transection/FlightBookings";
+import AEPSTransactions from "./Components/Transection/AEPSTransactions";
+import CreditCardTransactions from "./Components/Transection/CreditCardTransactions";  
+import EducationalFees from "./Components/Transection/EducationalFees";
+
+
+
+
+ 
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -30,15 +42,21 @@ createRoot(document.getElementById("root")).render(
           <Route path="/WeatherApp" element={<WeatherApp />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/AboutUS" element={<AboutUS />} />
-          <Route path="/MoneyTransferTransactions" element={<MoneyTransferTransactions />} />
+          <Route path="/MoneyTransferTransactions" element={<ProtectedRoute> <MoneyTransferTransactions /> </ProtectedRoute>} />
+          <Route path="/UPITransferTransactions" element={<ProtectedRoute> <UPITransferTransactions /> </ProtectedRoute>} />
+          <Route path="/PPITransferTransactions" element={<ProtectedRoute> <PPITransferTransactions /> </ProtectedRoute>} />
+          <Route path="/UtilityTransactions" element={<ProtectedRoute> <UtilityTransactions /> </ProtectedRoute>} />
+          <Route path="/AEPSTransactions" element={<ProtectedRoute> <AEPSTransactions /> </ProtectedRoute>} />
+          <Route path="/CreditCardTransactions" element={<ProtectedRoute> <CreditCardTransactions /> </ProtectedRoute>} />
+          <Route path="/FlightBookings" element={<ProtectedRoute> <FlightBookings /> </ProtectedRoute>} />
+          <Route path="/EducationalFees" element={<ProtectedRoute> <EducationalFees /> </ProtectedRoute>} />
+          
 
-          {/* Protected Admin Dashboard */}
+          
           <Route
             path="/AdminDashboard"
             element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
+              <ProtectedRoute> <AdminDashboard /> </ProtectedRoute>
             }
           />
         </Routes>

@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [adminName, setAdminName] = useState("");
-  const [walletBalance, setWalletBalance] = useState("0.00"); // ✅ Added for backend balance
+  const [walletBalance, setWalletBalance] = useState("0.00"); 
 
   useEffect(() => {
     const name = localStorage.getItem("adminName");

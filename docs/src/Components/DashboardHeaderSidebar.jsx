@@ -162,22 +162,22 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
                   <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/MoneyTransferTransactions")}>
                     Money Transfer
                   </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UpiTransfer")}>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UPITransferTransactions")}>
                     UPI Transfer
                   </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/PpiTransfer")}>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/PPITransferTransactions")}>
                     PPI Transfer
                   </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UtilityBills")}>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UtilityTransactions")}>
                     Utility Bills
                   </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/EducationFees")}>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/EducationalFees")}>
                     Education Fees
                   </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AepsMatm")}>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AEPSTransactions")}>
                     AEPS / MATM
                   </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/CreditCard")}>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/CreditCardTransactions")}>
                     Credit Card
                   </motion.li>
                   <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/FlightBookings")}>
