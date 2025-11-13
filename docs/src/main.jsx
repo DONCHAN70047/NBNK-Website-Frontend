@@ -10,6 +10,9 @@ import UnderConstruction from "./Components/UnderConstruction.jsx";
 import WeatherApp from "./Components/WeatherApp.jsx";
 import FarmerSellingComunityPage from "./pages/FarmerSellingComunityPage.jsx";
 import Login from "./pages/Login.jsx";
+import SignUP from "./pages/SignUP.jsx";
+import AdminSignUpFormPage from "./pages/AdminSignUpFormPage.jsx";
+import AdminSignUpFormPageLogin from "./pages/AdminSignUpFormPageLogin.jsx";
 import AboutUS from "./Components/AboutUS.jsx";
 import AdminDashboard from "./Components/AdminDashboard.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
@@ -20,7 +23,7 @@ import UtilityTransactions from "./Components/Transection/UtilityTransactions";
 import FlightBookings from "./Components/Transection/FlightBookings";
 import AEPSTransactions from "./Components/Transection/AEPSTransactions";
 import CreditCardTransactions from "./Components/Transection/CreditCardTransactions";  
-import EducationalFees from "./Components/Transection/EducationalFees";
+import EducationalFees from "./Components/Transection/EducationalFees";  
 
 
 
@@ -41,6 +44,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/UnderConstruction" element={<UnderConstruction />} />
           <Route path="/WeatherApp" element={<WeatherApp />} />
           <Route path="/Login" element={<Login />} />
+          <Route path="/SignUP" element={<SignUP />} />
           <Route path="/AboutUS" element={<AboutUS />} />
           <Route path="/MoneyTransferTransactions" element={<ProtectedRoute> <MoneyTransferTransactions /> </ProtectedRoute>} />
           <Route path="/UPITransferTransactions" element={<ProtectedRoute> <UPITransferTransactions /> </ProtectedRoute>} />
@@ -50,6 +54,8 @@ createRoot(document.getElementById("root")).render(
           <Route path="/CreditCardTransactions" element={<ProtectedRoute> <CreditCardTransactions /> </ProtectedRoute>} />
           <Route path="/FlightBookings" element={<ProtectedRoute> <FlightBookings /> </ProtectedRoute>} />
           <Route path="/EducationalFees" element={<ProtectedRoute> <EducationalFees /> </ProtectedRoute>} />
+          <Route path="/AdminSignUpFormPageLogin" element={<AdminSignUpFormPageLogin /> } />
+          <Route path="/AdminSignUpFormPage" element={<ProtectedRoute> <AdminSignUpFormPage /> </ProtectedRoute>} />
           
 
           

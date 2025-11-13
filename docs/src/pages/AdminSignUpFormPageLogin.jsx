@@ -4,7 +4,7 @@ import "./Login.css";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 
-const Login = () => {
+const AdminSignUpFormPageLogin = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +47,7 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem("adminName", data.admin_name);
-        navigate("/AdminDashboard");
+        navigate("/AdminSignUpFormPage");
       } else {
         setError(data.error || "Invalid phone number or password");
       }
@@ -71,13 +71,13 @@ const Login = () => {
               className="login-illustration"
             />
             <p className="left-text">
-              Empower your journey with secure and fast access 🚀
+              Empower your journey with secure and fast access For From🚀
             </p>
           </div>
 
           {/* ---------- RIGHT SIDE FORM ---------- */}
           <div className="login-right">
-            <h2>Welcome Back 👋</h2>
+            <h2>Welcome Adding Page 👋</h2>
             <p className="login-subtext">Login to continue your journey</p>
 
             <form onSubmit={handleLogin}>
@@ -133,4 +133,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminSignUpFormPageLogin;
