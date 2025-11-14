@@ -3,19 +3,29 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./AdminDashboard.css";
 
-const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
+const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const [isTransactionsOpen, setIsTransactionsOpen] = useState(true);
   const [walletBalance, setWalletBalance] = useState("0.00");
   const [aepsBalance, setAepsBalance] = useState("0.00");
   const navigate = useNavigate();
 
-  // ✅ Fetch balance from Django backend API
+  // ✅ Default profile image
+  const defaultImage =
+    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+  // ✅ Final profile photo to display
+  const finalPhoto = adminPhoto ? adminPhoto : defaultImage;
+
+  // --------------------
+  // 🔄 Fetch Wallet Balance API
+  // --------------------
   const fetchBalance = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`
+      );
       const data = await response.json();
 
-      // ✅ Match Django backend structure
       if (data.status === "success" && data.balance?.normal_balance) {
         setWalletBalance(data.balance.normal_balance);
       } else {
@@ -26,10 +36,9 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
     }
   };
 
-  // ✅ Auto-refresh every 30 seconds
   useEffect(() => {
     fetchBalance();
-    const interval = setInterval(fetchBalance, 30000);
+    const interval = setInterval(fetchBalance, 30000); // refresh every 30 sec
     return () => clearInterval(interval);
   }, []);
 
@@ -55,6 +64,7 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ repeat: Infinity, repeatDelay: 5, duration: 2 }}
           />
+
           <div className="topbar-date">
             <span className="date-left">
               November <span className="year-small">2025</span>
@@ -63,9 +73,9 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
           </div>
         </motion.div>
 
-        {/* 🔸 Center Section — Wallet + AEPS */}
+        {/* 🔸 Center Section — Balances */}
         <div className="topbar-center">
-          {/* 💰 Wallet Balance */}
+          {/* Wallet Balance */}
           <motion.div
             className="balance-box"
             whileHover={{ scale: 1.05 }}
@@ -76,7 +86,7 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
             <div className="wallet-subtext">Wallet Balance</div>
           </motion.div>
 
-          {/* 🏧 AEPS Balance */}
+          {/* AEPS Balance */}
           <motion.div
             className="balance-box"
             whileHover={{ scale: 1.05 }}
@@ -98,20 +108,23 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
             🔔
           </motion.span>
 
+          {/* User Info */}
           <motion.span
             className="user-info-bar"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 200 }}
           >
             <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              src={finalPhoto}
+              onError={(e) => (e.target.src = defaultImage)}
               className="user-pic"
-              alt="User Avatar"
+              alt="Admin Profile"
             />
+
             <span>
               <span className="welcome-label">Welcome,</span>
               <span className="user-name-bar">
-                {adminName || "NANTU DAS ADHIKARI"}
+                {adminName || "Esmart Admin"}
               </span>
             </span>
           </motion.span>
@@ -126,7 +139,13 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="user-info">
-          <div className="user-name">{adminName || "NANTU DAS ADHIKARI"}</div>
+          <img
+            src={finalPhoto}
+            onError={(e) => (e.target.src = defaultImage)}
+            className="sidebar-user-pic"
+            alt="Admin"
+          />
+          <div className="user-name">{adminName || "Esmart Admin"}</div>
           <div className="user-role">
             Smart Retailer - 9547783824 - SBR38904
           </div>
@@ -137,11 +156,12 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AdminDashboard")}>
               Dashboard
             </motion.li>
+
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/SmartSummary")}>
               Smart Summary
             </motion.li>
 
-            {/* Dropdown for Transactions */}
+            {/* Transactions Dropdown */}
             <motion.li
               className="dropdown-title"
               onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
@@ -204,6 +224,7 @@ const DashboardHeaderSidebar = ({ adminName, handleLogout }) => {
             </motion.li>
 
             <li className="section-title">Privacy & Settings</li>
+
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Configurations")}>
               Configurations
             </motion.li>

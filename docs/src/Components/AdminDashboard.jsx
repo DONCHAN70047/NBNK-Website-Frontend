@@ -6,19 +6,24 @@ import { motion } from "framer-motion";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+
   const [adminName, setAdminName] = useState("");
-  const [walletBalance, setWalletBalance] = useState("0.00"); 
+  const [adminPhoto, setAdminPhoto] = useState("");   // ✅ Profile image
+  const [walletBalance, setWalletBalance] = useState("0.00");
 
   useEffect(() => {
     const name = localStorage.getItem("adminName");
+    const photo = localStorage.getItem("adminPhoto");   // ✅ New photo field
+
     if (!name) {
       navigate("/Login");
     } else {
       setAdminName(name);
+      setAdminPhoto(photo);
     }
   }, [navigate]);
 
-  // ✅ Fetch balance from Django backend
+  // Fetch user balance
   const fetchBalance = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`);
@@ -26,15 +31,12 @@ const AdminDashboard = () => {
 
       if (data.status === "success" && data.balance?.normal_balance) {
         setWalletBalance(data.balance.normal_balance);
-      } else {
-        console.warn("Unexpected API structure:", data);
       }
     } catch (error) {
-      console.error("Error fetching balance:", error);
+      console.error("Balance error:", error);
     }
   };
 
-  // ✅ Auto-refresh every 30 seconds
   useEffect(() => {
     fetchBalance();
     const interval = setInterval(fetchBalance, 30000);
@@ -43,6 +45,7 @@ const AdminDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
+    localStorage.removeItem("adminPhoto");   // ✅ Clear image
     navigate("/Login");
   };
 
@@ -72,40 +75,45 @@ const AdminDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* 🔹 Header + Sidebar */}
-      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
+      <DashboardHeaderSidebar
+        adminName={adminName}
+        adminPhoto={adminPhoto}    // ✅ SEND photo to header component
+        handleLogout={handleLogout}
+      />
 
       <div className="main-row">
         <div className="sidebar-space" />
 
-        {/* ✨ Framer Motion Wrapper for Main Content */}
         <motion.main
           className="main-content"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* 🔹 Header */}
+          {/* Header */}
           <header className="app-header">
             <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              src={adminPhoto || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
               alt="User Avatar"
+              className="header-profile-img"
             />
+
             <div className="company-info">
               <div className="company-name">
                 ISHMART TECHNOLOGLOB SERVICE PVT LTD
               </div>
+
               <div className="company-sub">
                 Smart Retailer - 9547783824 - SBR38904
               </div>
             </div>
 
-            {/* ✅ Updated Balance Section */}
             <div className="balance-info">
               <div className="opening-balance">
                 <div>Opening Balance</div>
                 <div>₹ 000000.00</div>
               </div>
+
               <div className="available-balance">
                 <div>Available Balance</div>
                 <div>₹ {walletBalance}</div>
@@ -113,103 +121,40 @@ const AdminDashboard = () => {
             </div>
           </header>
 
-          {/* 🔹 Alert Section */}
+          {/* Marquee */}
           <div className="alert-marquee">
             <div className="marquee-text">
-              कृपया BSES और Tata Power के लिए ₹ 1,00,000 से अधिक के बिजली बिल फिलहाल न भेजें 🙏🙏 ||
-              Please do not send electricity bills over ₹1,00,000 for BSES and Tata Power for now. 🙏🙏
+              कृपया BSES और Tata Power के लिए ₹ 1,00,000 से अधिक के बिजली बिल न भेजें 🙏 ||
+              Do not send bills over ₹1,00,000 for BSES and Tata Power 🙏
             </div>
           </div>
 
-          {/* 🔹 Services Section */}
-          <motion.section
-            className="services-section"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-          >
+          {/* Services */}
+          <section className="services-section">
             <div className="services-grid">
-              {services.map((service, index) => (
-                <motion.div
-                  className="service-card"
-                  key={index}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                >
+              {services.map((service, i) => (
+                <motion.div className="service-card" key={i} whileHover={{ scale: 1.05 }}>
                   <img src={service.icon} alt={service.label} />
                   <p>{service.label}</p>
                 </motion.div>
               ))}
             </div>
-          </motion.section>
+          </section>
 
-          {/* 🔹 Summary and Transactions Section */}
-          <motion.section
-            className="summary-transactions-section"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            <div className="today-business">
-              <h3>Today Business Summary</h3>
-              <div className="summary-grid">
-                <div className="summary-box">
-                  <p>Money Transfer</p>
-                  <h4>₹ 0</h4>
-                </div>
-                <div className="summary-box">
-                  <p>Utility Bills</p>
-                  <h4>₹ 0</h4>
-                </div>
-                <div className="summary-box">
-                  <p>Credit Card Bills</p>
-                  <h4>₹ 0</h4>
-                </div>
-                <div className="summary-box">
-                  <p>AEPS/MATM/MPOS</p>
-                  <h4>₹ 0</h4>
-                </div>
-                <div className="summary-box">
-                  <p>Flight</p>
-                  <h4>₹ 0</h4>
-                </div>
-              </div>
-            </div>
-
+          {/* Transactions */}
+          <section className="summary-transactions-section">
             <div className="recent-transactions">
               <h3>Recent Transactions</h3>
               <ul>
                 {recentTransactions.map((txn, idx) => (
-                  <motion.li
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                  >
+                  <motion.li key={idx} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     - ₹ {txn.amount} {txn.label} <br />
-                    <small>
-                      {txn.date} @ {txn.id}
-                    </small>
+                    <small>{txn.date} @ {txn.id}</small>
                   </motion.li>
                 ))}
               </ul>
             </div>
-
-            <motion.div
-              className="live-alerts"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-            >
-              <h3>Live Alerts</h3>
-              <div className="alert-box">
-                <p>Welcome. Good morning, hope you are doing well.</p>
-                <p>
-                  Our Customer Care Number is <strong>+91 780 0606 780</strong>.
-                </p>
-              </div>
-            </motion.div>
-          </motion.section>
+          </section>
         </motion.main>
       </div>
     </div>
