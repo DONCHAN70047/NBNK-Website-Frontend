@@ -8,12 +8,12 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const [adminName, setAdminName] = useState("");
-  const [adminPhoto, setAdminPhoto] = useState("");   // ✅ Profile image
+  const [adminPhoto, setAdminPhoto] = useState("");
   const [walletBalance, setWalletBalance] = useState("0.00");
 
   useEffect(() => {
     const name = localStorage.getItem("adminName");
-    const photo = localStorage.getItem("adminPhoto");   // ✅ New photo field
+    const photo = localStorage.getItem("adminPhoto");
 
     if (!name) {
       navigate("/Login");
@@ -26,7 +26,9 @@ const AdminDashboard = () => {
   // Fetch user balance
   const fetchBalance = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`
+      );
       const data = await response.json();
 
       if (data.status === "success" && data.balance?.normal_balance) {
@@ -45,13 +47,13 @@ const AdminDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
-    localStorage.removeItem("adminPhoto");   // ✅ Clear image
+    localStorage.removeItem("adminPhoto");
     navigate("/Login");
   };
 
   const services = [
     { label: "Royel Payout", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
-    { label: "Money Transfer 3", icon: "TrasferPic.png" },
+    { label: "Money Transfer 3", icon: "/TrasferPic.png" },
     { label: "PPI Transfer", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
     { label: "UPI Transfer", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
     { label: "Smart Pay", icon: "/SmartPayPic.png" },
@@ -77,7 +79,7 @@ const AdminDashboard = () => {
     <div className="dashboard-container">
       <DashboardHeaderSidebar
         adminName={adminName}
-        adminPhoto={adminPhoto}    // ✅ SEND photo to header component
+        adminPhoto={adminPhoto}
         handleLogout={handleLogout}
       />
 
@@ -102,7 +104,6 @@ const AdminDashboard = () => {
               <div className="company-name">
                 ISHMART TECHNOLOGLOB SERVICE PVT LTD
               </div>
-
               <div className="company-sub">
                 Smart Retailer - 9547783824 - SBR38904
               </div>
@@ -133,7 +134,11 @@ const AdminDashboard = () => {
           <section className="services-section">
             <div className="services-grid">
               {services.map((service, i) => (
-                <motion.div className="service-card" key={i} whileHover={{ scale: 1.05 }}>
+                <motion.div
+                  className="service-card"
+                  key={i}
+                  whileHover={{ scale: 1.05 }}
+                >
                   <img src={service.icon} alt={service.label} />
                   <p>{service.label}</p>
                 </motion.div>
@@ -154,6 +159,7 @@ const AdminDashboard = () => {
                 ))}
               </ul>
             </div>
+            <br /><br />
           </section>
         </motion.main>
       </div>

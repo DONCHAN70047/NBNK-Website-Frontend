@@ -25,7 +25,7 @@
    🟣 TOP NAVBAR
 ===================================================== */
 .top-navbar {
-  background: linear-gradient(90deg, #4b0082, #6a0dad);
+  background: linear-gradient(90deg, #55217a, #2d034b);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -131,7 +131,7 @@
 ===================================================== */
 .sidebar {
   width: 240px;
-  background: linear-gradient(180deg, #2e005f, #4a007e);
+  background: linear-gradient(180deg, #19052e, #09000f);
   color: white;
   display: flex;
   flex-direction: column;
@@ -361,7 +361,7 @@
 ===================================================== */
 .sidebar {
   width: 240px;
-  background: linear-gradient(180deg, #2e005f, #4a007e);
+  background: linear-gradient(180deg, #2e005f, #08000d);
   color: white;
   display: flex;
   flex-direction: column;

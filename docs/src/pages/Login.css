@@ -118,7 +118,7 @@ input:focus {
 
 .password-field .eye {
   position: absolute;
-  right: 12px;
+  right: 150px;
   top: 12px;
   cursor: pointer;
   opacity: 0.7;
