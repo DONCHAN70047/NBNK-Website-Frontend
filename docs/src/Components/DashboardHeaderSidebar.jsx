@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import "./AdminDashboard.css";
+import "./DashboardHeaderSidebar.css";
 
 const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const [isTransactionsOpen, setIsTransactionsOpen] = useState(true);
@@ -9,54 +9,43 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const [aepsBalance, setAepsBalance] = useState("0.00");
   const navigate = useNavigate();
 
-  // ✅ Default profile image
-  const defaultImage =
-    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+  const defaultImage = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+  const finalPhoto = adminPhoto || defaultImage;
 
-  // ✅ Final profile photo to display
-  const finalPhoto = adminPhoto ? adminPhoto : defaultImage;
-
-  // --------------------
-  // 🔄 Fetch Wallet Balance API
-  // --------------------
+  // Fetch Wallet Balance
   const fetchBalance = async () => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`
       );
+
       const data = await response.json();
 
       if (data.status === "success" && data.balance?.normal_balance) {
         setWalletBalance(data.balance.normal_balance);
-      } else {
-        console.warn("Unexpected API structure:", data);
       }
     } catch (error) {
-      console.error("Error fetching balance:", error);
+      console.error("Balance Fetch Error:", error);
     }
   };
 
   useEffect(() => {
     fetchBalance();
-    const interval = setInterval(fetchBalance, 30000); // refresh every 30 sec
+    const interval = setInterval(fetchBalance, 30000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <>
-      {/* 🔹 Top Navbar */}
-      <motion.div
+      {/* ---------------- TOP NAVBAR ---------------- */}
+      <motion.header
         className="top-navbar"
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.6 }}
       >
-        {/* 🔸 Left Section */}
-        <motion.div
-          className="topbar-left"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 200 }}
-        >
+        {/* Left Section */}
+        <div className="topbar-left">
           <motion.img
             className="logo-img"
             src="/EsmartPayLogo.png"
@@ -71,56 +60,36 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
             </span>
             <span className="date-right">12</span>
           </div>
-        </motion.div>
+        </div>
 
-        {/* 🔸 Center Section — Balances */}
+        {/* Center Section */}
         <div className="topbar-center">
-          {/* Wallet Balance */}
-          <motion.div
-            className="balance-box"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 250 }}
-          >
+          <motion.div className="balance-box" whileHover={{ scale: 1.05 }}>
             <div className="wallet-amount">₹ {walletBalance}</div>
             <div className="wallet-label">Available</div>
             <div className="wallet-subtext">Wallet Balance</div>
           </motion.div>
 
-          {/* AEPS Balance */}
-          <motion.div
-            className="balance-box"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 250 }}
-          >
+          <motion.div className="balance-box" whileHover={{ scale: 1.05 }}>
             <div className="wallet-amount">₹ {aepsBalance}</div>
             <div className="wallet-label">Available</div>
             <div className="wallet-subtext">AEPS Balance</div>
           </motion.div>
         </div>
 
-        {/* 🔸 Right Section */}
+        {/* Right Section */}
         <div className="topbar-right">
-          <motion.span
-            className="notify-bell"
-            whileHover={{ rotate: 15, scale: 1.2 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
+          <motion.span className="notify-bell" whileHover={{ scale: 1.2 }}>
             🔔
           </motion.span>
 
-          {/* User Info */}
-          <motion.span
-            className="user-info-bar"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 200 }}
-          >
+          <motion.span className="user-info-bar" whileHover={{ scale: 1.05 }}>
             <img
               src={finalPhoto}
               onError={(e) => (e.target.src = defaultImage)}
               className="user-pic"
-              alt="Admin Profile"
+              alt="Admin"
             />
-
             <span>
               <span className="welcome-label">Welcome,</span>
               <span className="user-name-bar">
@@ -129,15 +98,16 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
             </span>
           </motion.span>
         </div>
-      </motion.div>
+      </motion.header>
 
-      {/* 🔹 Sidebar */}
+      {/* ---------------- LEFT SIDEBAR ---------------- */}
       <motion.aside
         className="sidebar"
         initial={{ x: -240, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.6 }}
       >
+        {/* User Profile */}
         <div className="user-info">
           <img
             src={finalPhoto}
@@ -151,6 +121,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
           </div>
         </div>
 
+        {/* MENU */}
         <nav className="nav-menu">
           <ul>
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AdminDashboard")}>
@@ -161,7 +132,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
               Smart Summary
             </motion.li>
 
-            {/* Transactions Dropdown */}
+            {/* Dropdown */}
             <motion.li
               className="dropdown-title"
               onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
@@ -179,30 +150,14 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/MoneyTransferTransactions")}>
-                    Money Transfer
-                  </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UPITransferTransactions")}>
-                    UPI Transfer
-                  </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/PPITransferTransactions")}>
-                    PPI Transfer
-                  </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UtilityTransactions")}>
-                    Utility Bills
-                  </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/EducationalFees")}>
-                    Education Fees
-                  </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AEPSTransactions")}>
-                    AEPS / MATM
-                  </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/CreditCardTransactions")}>
-                    Credit Card
-                  </motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/FlightBookings")}>
-                    Flight Bookings
-                  </motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/MoneyTransferTransactions")}>Money Transfer</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UPITransferTransactions")}>UPI Transfer</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/PPITransferTransactions")}>PPI Transfer</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UtilityTransactions")}>Utility Bills</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/EducationalFees")}>Education Fees</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AEPSTransactions")}>AEPS / MATM</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/CreditCardTransactions")}>Credit Card</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/FlightBookings")}>Flight Bookings</motion.li>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -210,15 +165,19 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/RefundPending")}>
               Refund Pending
             </motion.li>
+
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/MoneyRequests")}>
               Money Requests
             </motion.li>
+
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Statements")}>
               Statements
             </motion.li>
+
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Settlement")}>
               Settlement
             </motion.li>
+
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/ChargesSlabs")}>
               Charges Slabs
             </motion.li>
@@ -228,16 +187,18 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Configurations")}>
               Configurations
             </motion.li>
+
             <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Credentials")}>
               Credentials
             </motion.li>
           </ul>
         </nav>
 
+        {/* Logout */}
         <motion.button
           className="logout-btn"
           onClick={handleLogout}
-          whileHover={{ scale: 1.05, backgroundColor: "#ff3333" }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           Logout
