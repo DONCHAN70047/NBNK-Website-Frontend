@@ -28,6 +28,8 @@ import FlightBookings from "./Components/Transection/FlightBookings";
 import AEPSTransactions from "./Components/Transection/AEPSTransactions";
 import CreditCardTransactions from "./Components/Transection/CreditCardTransactions";
 import EducationalFees from "./Components/Transection/EducationalFees";
+import MoneyTransfer from "./Components/DashboardPages/MoneyTransfer";   
+import MoneyTransfer3 from "./Components/DashboardPages/MoneyTransfer3";
 
 function MainApp() {
   const [loading, setLoading] = useState(true);
@@ -69,6 +71,8 @@ function MainApp() {
             <Route path="/AdminSignUpFormPage" element={<ProtectedRoute><AdminSignUpFormPage /></ProtectedRoute>} />
 
             <Route path="/AdminDashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/MoneyTransfer" element={<ProtectedRoute><MoneyTransfer /></ProtectedRoute>} />
+            <Route path="/MoneyTransfer3" element={<ProtectedRoute><MoneyTransfer3 /></ProtectedRoute>} />
           </Routes>
         </UserContextProvider>
       </LanguageProvider>

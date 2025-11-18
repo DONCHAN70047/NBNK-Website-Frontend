@@ -1,3 +1,5 @@
+// FULL UPDATED AdminDashboard.jsx WITH MONEY TRANSFER ROUTE INTEGRATION
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
@@ -51,9 +53,10 @@ const AdminDashboard = () => {
     navigate("/Login");
   };
 
+  // SERVICES WITH ROUTES
   const services = [
-    { label: "Royel Payout", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
-    { label: "Money Transfer 3", icon: "/TrasferPic.png" },
+    { label: "Royel Payout", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png", route: "/MoneyTransfer" },
+    { label: "Money Transfer 3", icon: "/TrasferPic.png", route: "/MoneyTransfer3" },
     { label: "PPI Transfer", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
     { label: "UPI Transfer", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png" },
     { label: "Smart Pay", icon: "/SmartPayPic.png" },
@@ -92,6 +95,7 @@ const AdminDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
+
           {/* Header */}
           <header className="app-header">
             <img
@@ -101,12 +105,8 @@ const AdminDashboard = () => {
             />
 
             <div className="company-info">
-              <div className="company-name">
-                ISHMART TECHNOLOGLOB SERVICE PVT LTD
-              </div>
-              <div className="company-sub">
-                Smart Retailer - 9547783824 - SBR38904
-              </div>
+              <div className="company-name">ISHMART TECHNOLOGLOB SERVICE PVT LTD</div>
+              <div className="company-sub">Smart Retailer - 9547783824 - SBR38904</div>
             </div>
 
             <div className="balance-info">
@@ -138,6 +138,10 @@ const AdminDashboard = () => {
                   className="service-card"
                   key={i}
                   whileHover={{ scale: 1.05 }}
+                  onClick={() => {
+                    if (service.route) navigate(service.route);
+                  }}
+                  style={{ cursor: service.route ? "pointer" : "default" }}
                 >
                   <img src={service.icon} alt={service.label} />
                   <p>{service.label}</p>
@@ -146,7 +150,7 @@ const AdminDashboard = () => {
             </div>
           </section>
 
-          {/* Transactions */}
+          {/* Recent Transactions */}
           <section className="summary-transactions-section">
             <div className="recent-transactions">
               <h3>Recent Transactions</h3>
@@ -161,6 +165,7 @@ const AdminDashboard = () => {
             </div>
             <br /><br />
           </section>
+
         </motion.main>
       </div>
     </div>
